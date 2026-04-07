@@ -39,6 +39,17 @@ body {
   color: var(--text);
 }
 
+body,
+.header,
+.card,
+.how-it-works,
+.steps article,
+.preview,
+.detail-preview {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
 .container {
   width: min(1100px, 92%);
   margin: 0 auto;
@@ -79,13 +90,75 @@ body {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.theme-toggle {
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: transparent;
-  color: var(--header-text);
-  border-radius: 8px;
-  padding: 6px 10px;
+.theme-switch {
+  position: relative;
+  display: inline-flex;
+  width: 58px;
+  height: 32px;
+  align-items: center;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
+.theme-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-slider {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #c8d9ff, #89adff);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
   cursor: pointer;
+  transition: background 0.35s ease, border-color 0.35s ease, transform 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-slider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.7), transparent 35%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.35), transparent 35%);
+  pointer-events: none;
+}
+
+.theme-slider::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  background: radial-gradient(circle at 30% 30%, #fff, #f7d774 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 210, 87, 0.65);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.theme-switch input:checked + .theme-slider {
+  background: linear-gradient(180deg, #1f2f56, #0a142c);
+  border-color: rgba(147, 197, 253, 0.65);
+}
+
+.theme-switch input:checked + .theme-slider::before {
+  transform: translateX(26px);
+  background: radial-gradient(circle at 30% 30%, #f8fbff, #c9d4e8 70%);
+  box-shadow: 0 0 10px rgba(148, 163, 184, 0.55);
+}
+
+.theme-switch:hover .theme-slider {
+  transform: scale(1.03);
+}
+
+.theme-switch input:focus-visible + .theme-slider {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
 }
 
 .hero {

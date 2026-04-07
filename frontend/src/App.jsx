@@ -25,9 +25,14 @@ function App() {
           <nav className="menu">
             <Link to="/">Home</Link>
             <Link to="/download">Download</Link>
-            <button type="button" className="theme-toggle" onClick={toggleTheme}>
-              {theme === "light" ? "Dark" : "Light"} Mode
-            </button>
+            <label className="theme-switch" aria-label="Toggle dark mode">
+              <input
+                type="checkbox"
+                checked={theme === "dark"}
+                onChange={toggleTheme}
+              />
+              <span className="theme-slider" />
+            </label>
           </nav>
         </div>
       </header>
