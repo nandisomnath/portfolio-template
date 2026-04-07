@@ -30,6 +30,7 @@ function TemplatePreviewPage() {
   if (loading) return <p>Loading preview...</p>;
   if (error) return <p className="error">{error}</p>;
   if (!template) return null;
+  const isPdfPreview = template.previewFile.toLowerCase().includes(".pdf");
 
   return (
     <section>
@@ -40,7 +41,7 @@ function TemplatePreviewPage() {
       <div className="detail-preview">
         {!template.previewFile ? (
           <p>No preview file available.</p>
-        ) : template.previewFile.endsWith(".pdf") ? (
+        ) : isPdfPreview ? (
           <iframe title={`${template.title} preview`} src={getFileUrl(template.previewFile)} />
         ) : (
           <img src={getFileUrl(template.previewFile)} alt={`${template.title} preview`} />
@@ -48,7 +49,7 @@ function TemplatePreviewPage() {
       </div>
 
       <div className="row">
-        {template.previewFile.endsWith(".pdf") && (
+        {isPdfPreview && (
           <a className="button secondary" href={getPreviewDownloadUrl(template.id)}>
             Download PDF
           </a>
