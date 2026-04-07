@@ -39,7 +39,7 @@ function DownloadPage() {
                 <div className="preview">
                   {!template.previewFile ? (
                     <p>No preview</p>
-                  ) : template.previewFile.endsWith(".pdf") ? (
+                  ) : template.previewFile.toLowerCase().includes(".pdf") ? (
                     <iframe
                       title={`${template.title} preview`}
                       src={getFileUrl(template.previewFile)}

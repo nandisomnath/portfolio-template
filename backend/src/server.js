@@ -41,10 +41,12 @@ const titleFromName = (fileName) =>
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
 const getTemplatesFromFiles = () => {
-  const docxFiles = fs
+  const docxDirFiles = fs
     .readdirSync(DOCX_DIR, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && path.extname(entry.name).toLowerCase() === ".docx")
+    .filter((entry) => entry.isFile())
     .map((entry) => entry.name);
+  const docxFiles = docxDirFiles.filter((file) => path.extname(file).toLowerCase() === ".docx");
+  const pdfFilesInDocx = docxDirFiles.filter((file) => path.extname(file).toLowerCase() === ".pdf");
 
   const previewFiles = fs
     .readdirSync(PREVIEW_DIR, { withFileTypes: true })
@@ -59,16 +61,29 @@ const getTemplatesFromFiles = () => {
     if (!previewBySlug.has(slug)) previewBySlug.set(slug, file);
   });
 
+  const pdfInDocxBySlug = new Map();
+  pdfFilesInDocx.forEach((file) => {
+    const slug = slugFromName(file);
+    if (!pdfInDocxBySlug.has(slug)) pdfInDocxBySlug.set(slug, file);
+  });
+
   const templates = docxFiles.map((docxName) => {
     const slug = slugFromName(docxName);
     const previewName = previewBySlug.get(slug);
+    const pdfDocxName = pdfInDocxBySlug.get(slug);
+    const previewFilePath = previewName
+      ? `/uploads/previews/${previewName}`
+      : pdfDocxName
+        ? `/uploads/docx/${pdfDocxName}`
+        : "";
     return {
       id: slug,
       title: titleFromName(docxName),
       description: "Resume template ready to download.",
       category: "General",
       docxFile: `/uploads/docx/${docxName}`,
-      previewFile: previewName ? `/uploads/previews/${previewName}` : "",
+      previewFile: previewFilePath,
+      pdfFile: pdfDocxName ? `/uploads/docx/${pdfDocxName}` : "",
       createdAt: fs.statSync(path.join(DOCX_DIR, docxName)).ctime.toISOString(),
     };
   });
@@ -117,13 +132,14 @@ app.get("/api/templates/:id/preview-download", (req, res) => {
     return res.status(404).json({ message: "Template not found" });
   }
 
-  if (!found.previewFile) {
-    return res.status(404).json({ message: "Preview file not found for this template" });
+  const pdfPath = found.pdfFile || (found.previewFile.toLowerCase().includes(".pdf") ? found.previewFile : "");
+  if (!pdfPath) {
+    return res.status(404).json({ message: "PDF file not found for this template" });
   }
 
-  const filePath = path.join(BACKEND_ROOT, found.previewFile.replace(/^\//, ""));
+  const filePath = path.join(BACKEND_ROOT, pdfPath.replace(/^\//, ""));
   if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ message: "Preview file not found on disk" });
+    return res.status(404).json({ message: "PDF file not found on disk" });
   }
 
   const safeTitle = found.title.replace(/[^\w\-]+/g, "_");

@@ -30,7 +30,8 @@ function TemplatePreviewPage() {
   if (loading) return <p>Loading preview...</p>;
   if (error) return <p className="error">{error}</p>;
   if (!template) return null;
-  const isPdfPreview = template.previewFile.toLowerCase().includes(".pdf");
+  const isPdfPreview = !!template.previewFile && template.previewFile.toLowerCase().includes(".pdf");
+  const hasPdfFile = !!template.pdfFile || isPdfPreview;
 
   return (
     <section>
@@ -49,7 +50,7 @@ function TemplatePreviewPage() {
       </div>
 
       <div className="row">
-        {isPdfPreview && (
+        {hasPdfFile && (
           <a className="button secondary" href={getPreviewDownloadUrl(template.id)}>
             Download PDF
           </a>
