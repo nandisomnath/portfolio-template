@@ -16,6 +16,10 @@ export function getDownloadUrl(id) {
   return `${API_BASE}/api/templates/${id}/download`;
 }
 
+export function getPreviewDownloadUrl(id) {
+  return `${API_BASE}/api/templates/${id}/preview-download`;
+}
+
 export function getFileUrl(filePath) {
   if (!filePath) return "";
   return `${API_BASE}${filePath}`;

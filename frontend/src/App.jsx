@@ -1,6 +1,7 @@
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TemplateDetailPage from "./pages/TemplateDetailPage";
+import TemplatePreviewPage from "./pages/TemplatePreviewPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
+          <Route path="/templates/:id/preview" element={<TemplatePreviewPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

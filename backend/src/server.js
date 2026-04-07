@@ -109,6 +109,28 @@ app.get("/api/templates/:id/download", (req, res) => {
   return res.download(filePath, `${safeTitle}.docx`);
 });
 
+app.get("/api/templates/:id/preview-download", (req, res) => {
+  const templates = getTemplatesFromFiles();
+  const found = templates.find((t) => t.id === req.params.id);
+
+  if (!found) {
+    return res.status(404).json({ message: "Template not found" });
+  }
+
+  if (!found.previewFile) {
+    return res.status(404).json({ message: "Preview file not found for this template" });
+  }
+
+  const filePath = path.join(BACKEND_ROOT, found.previewFile.replace(/^\//, ""));
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ message: "Preview file not found on disk" });
+  }
+
+  const safeTitle = found.title.replace(/[^\w\-]+/g, "_");
+  const ext = path.extname(filePath).toLowerCase();
+  return res.download(filePath, `${safeTitle}-preview${ext}`);
+});
+
 app.use((error, req, res, next) => {
   if (error) {
     return res.status(400).json({ message: error.message });

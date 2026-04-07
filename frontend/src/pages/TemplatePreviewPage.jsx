@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getDownloadUrl, getFileUrl, getTemplate } from "../api";
+import {
+  getDownloadUrl,
+  getFileUrl,
+  getPreviewDownloadUrl,
+  getTemplate,
+} from "../api";
 
-function TemplateDetailPage() {
+function TemplatePreviewPage() {
   const { id } = useParams();
   const [template, setTemplate] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,31 +27,32 @@ function TemplateDetailPage() {
     load();
   }, [id]);
 
-  if (loading) return <p>Loading template...</p>;
+  if (loading) return <p>Loading preview...</p>;
   if (error) return <p className="error">{error}</p>;
   if (!template) return null;
 
   return (
     <section>
-      <Link to="/">← Back</Link>
-      <h2>{template.title}</h2>
-      <p>{template.description}</p>
-      <p>
-        <strong>Category:</strong> {template.category}
-      </p>
+      <Link to="/">← Back to Home</Link>
+      <h2>{template.title} Preview</h2>
+      <p>Check the visual style before downloading your files.</p>
+
       <div className="detail-preview">
         {!template.previewFile ? (
-          <p>No preview available for this template.</p>
+          <p>No preview file available.</p>
         ) : template.previewFile.endsWith(".pdf") ? (
           <iframe title={`${template.title} preview`} src={getFileUrl(template.previewFile)} />
         ) : (
-          <img src={getFileUrl(template.previewFile)} alt={template.title} />
+          <img src={getFileUrl(template.previewFile)} alt={`${template.title} preview`} />
         )}
       </div>
+
       <div className="row">
-        <Link className="button secondary" to={`/templates/${template.id}/preview`}>
-          Open Preview Page
-        </Link>
+        {!!template.previewFile && (
+          <a className="button secondary" href={getPreviewDownloadUrl(template.id)}>
+            Download Preview
+          </a>
+        )}
         <a className="button" href={getDownloadUrl(template.id)}>
           Download DOCX
         </a>
@@ -55,4 +61,4 @@ function TemplateDetailPage() {
   );
 }
 
-export default TemplateDetailPage;
+export default TemplatePreviewPage;

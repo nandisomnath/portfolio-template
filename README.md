@@ -50,3 +50,4 @@ Express serves the built frontend and API from one process.
 - `GET /api/templates` list templates
 - `GET /api/templates/:id` get template
 - `GET /api/templates/:id/download` download DOCX
+- `GET /api/templates/:id/preview-download` download preview file
