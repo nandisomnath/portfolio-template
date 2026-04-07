@@ -31,7 +31,10 @@ function App() {
                 checked={theme === "dark"}
                 onChange={toggleTheme}
               />
-              <span className="theme-slider" />
+              <span className="theme-slider">
+                <span className="theme-icon sun">☀</span>
+                <span className="theme-icon moon">☾</span>
+              </span>
             </label>
           </nav>
         </div>
