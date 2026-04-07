@@ -45,6 +45,12 @@ From project root:
 
 Express serves the built frontend and API from one process.
 
+## Website pages
+
+- `/` Home page (design + how website works)
+- `/download` Template listing page (preview + download)
+- `/templates/:id/preview` Dedicated preview and download page
+
 ## API endpoints
 
 - `GET /api/templates` list templates

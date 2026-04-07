@@ -40,6 +40,12 @@ body {
 .nav a {
   color: white;
   text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .hero {
@@ -66,6 +72,10 @@ body {
   padding: 16px;
   margin-bottom: 18px;
   border: 1px solid #e5e7eb;
+}
+
+.how-it-works p {
+  margin-top: 8px;
 }
 
 .steps {

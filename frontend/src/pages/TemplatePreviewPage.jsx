@@ -33,7 +33,7 @@ function TemplatePreviewPage() {
 
   return (
     <section>
-      <Link to="/">← Back to Home</Link>
+      <Link to="/download">← Back to Download</Link>
       <h2>{template.title} Preview</h2>
       <p>Check the visual style before downloading your files.</p>
 
