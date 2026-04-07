@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getDownloadUrl, getFileUrl, getTemplates } from "../api";
+import { getFileUrl, getTemplates } from "../api";
 
 function DownloadPage() {
   const [templates, setTemplates] = useState([]);
@@ -51,24 +51,6 @@ function DownloadPage() {
                 <h3>{template.title}</h3>
                 <p>{template.category}</p>
               </Link>
-              <div className="card-actions">
-                <Link
-                  className="icon-action preview-icon"
-                  to={`/templates/${template.id}/preview`}
-                  title="Open preview"
-                  aria-label={`Open preview for ${template.title}`}
-                >
-                  🖼
-                </Link>
-                <a
-                  className="icon-action download-icon"
-                  href={getDownloadUrl(template.id)}
-                  title="Download DOCX"
-                  aria-label={`Download DOCX for ${template.title}`}
-                >
-                  ⬇
-                </a>
-              </div>
             </article>
           ))}
         </div>
