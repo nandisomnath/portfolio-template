@@ -227,15 +227,19 @@ body,
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
 .card {
   background: var(--surface);
   border-radius: 12px;
-  padding: 12px;
+  padding: 14px;
   box-shadow: 0 4px 16px var(--shadow);
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  gap: 14px;
+  align-items: center;
 }
 
 .card > a {
@@ -243,14 +247,24 @@ body,
   color: inherit;
 }
 
+.card > a .preview {
+  margin-bottom: 8px;
+}
+
 .preview {
-  height: 220px;
+  height: 180px;
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
   display: grid;
   place-items: center;
   background: var(--preview-bg);
+}
+
+@media (max-width: 720px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
 }
 
 .preview img,
