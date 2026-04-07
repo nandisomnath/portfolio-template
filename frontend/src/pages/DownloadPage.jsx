@@ -35,7 +35,7 @@ function DownloadPage() {
         <div className="grid">
           {templates.map((template) => (
             <article className="card" key={template.id}>
-              <Link to={`/templates/${template.id}/preview`}>
+              <Link className="card-main" to={`/templates/${template.id}/preview`}>
                 <div className="preview">
                   {!template.previewFile ? (
                     <p>No preview</p>
@@ -51,12 +51,22 @@ function DownloadPage() {
                 <h3>{template.title}</h3>
                 <p>{template.category}</p>
               </Link>
-              <div className="row">
-                <Link className="button secondary" to={`/templates/${template.id}/preview`}>
-                  Open Preview
+              <div className="card-actions">
+                <Link
+                  className="icon-action preview-icon"
+                  to={`/templates/${template.id}/preview`}
+                  title="Open preview"
+                  aria-label={`Open preview for ${template.title}`}
+                >
+                  🖼
                 </Link>
-                <a className="button" href={getDownloadUrl(template.id)}>
-                  Download DOCX
+                <a
+                  className="icon-action download-icon"
+                  href={getDownloadUrl(template.id)}
+                  title="Download DOCX"
+                  aria-label={`Download DOCX for ${template.title}`}
+                >
+                  ⬇
                 </a>
               </div>
             </article>

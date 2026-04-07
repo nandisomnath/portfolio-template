@@ -233,13 +233,19 @@ body,
 
 .card {
   background: var(--surface);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 14px;
   box-shadow: 0 4px 16px var(--shadow);
   display: grid;
   grid-template-columns: minmax(200px, 280px) 1fr;
   gap: 14px;
   align-items: center;
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px var(--shadow);
 }
 
 .card > a {
@@ -247,8 +253,50 @@ body,
   color: inherit;
 }
 
-.card > a .preview {
+.card-main .preview {
   margin-bottom: 8px;
+}
+
+.card-main h3 {
+  margin: 8px 0 4px;
+}
+
+.card-main p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.icon-action {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.icon-action:hover {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 8px 18px var(--shadow);
+}
+
+.preview-icon {
+  color: #8b5cf6;
+}
+
+.download-icon {
+  color: #22c55e;
 }
 
 .preview {
@@ -264,6 +312,10 @@ body,
 @media (max-width: 720px) {
   .card {
     grid-template-columns: 1fr;
+  }
+
+  .card-actions {
+    justify-content: flex-start;
   }
 }
 
