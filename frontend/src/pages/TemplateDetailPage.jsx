@@ -35,7 +35,9 @@ function TemplateDetailPage() {
         <strong>Category:</strong> {template.category}
       </p>
       <div className="detail-preview">
-        {template.previewFile.endsWith(".pdf") ? (
+        {!template.previewFile ? (
+          <p>No preview available for this template.</p>
+        ) : template.previewFile.endsWith(".pdf") ? (
           <iframe title={`${template.title} preview`} src={getFileUrl(template.previewFile)} />
         ) : (
           <img src={getFileUrl(template.previewFile)} alt={template.title} />

@@ -34,7 +34,9 @@ function HomePage() {
           {templates.map((template) => (
             <Link className="card" key={template.id} to={`/templates/${template.id}`}>
               <div className="preview">
-                {template.previewFile.endsWith(".pdf") ? (
+                {!template.previewFile ? (
+                  <p>No preview</p>
+                ) : template.previewFile.endsWith(".pdf") ? (
                   <iframe
                     title={`${template.title} preview`}
                     src={getFileUrl(template.previewFile)}

@@ -1,12 +1,12 @@
 # Resume Template Download Website (MVP)
 
-Simple full-stack app to upload, browse, and download resume templates as DOCX files.
+Simple full-stack app to browse and download resume templates as DOCX files.
 
 ## Stack
 
+- Frontend + Backend in one package
 - Frontend: React + Vite
-- Backend: Node.js + Express + Multer
-- Data: JSON file (`backend/data/templates.json`)
+- Backend: Node.js + Express
 - Storage: Local files
 
 ## Folder structure
@@ -14,29 +14,39 @@ Simple full-stack app to upload, browse, and download resume templates as DOCX f
 - `backend/uploads/docx/` for DOCX templates
 - `backend/uploads/previews/` for preview files (image/PDF)
 
+## Add templates manually (no admin panel)
+
+1. Put your `.docx` files inside `backend/uploads/docx/`
+2. Put preview image/PDF files inside `backend/uploads/previews/`
+3. Use matching base names so they pair automatically.
+
+Example:
+- `backend/uploads/docx/modern-blue.docx`
+- `backend/uploads/previews/modern-blue.png`
+
+If no preview exists, the site still shows the template with "No preview".
+
 ## Run locally
 
 1. Install Node.js (v18+ recommended).
-2. Install backend dependencies:
-   - `cd backend`
+2. From project root:
    - `npm install`
-3. Install frontend dependencies:
-   - `cd ../frontend`
-   - `npm install`
-4. Start backend:
-   - `cd ../backend`
-   - `npm run dev`
-5. Start frontend:
-   - `cd ../frontend`
    - `npm run dev`
 
-Frontend runs on `http://localhost:5173`, backend on `http://localhost:5000`.
+This starts both services together:
+- frontend on `http://localhost:5173`
+- backend on `http://localhost:5000`
+
+## Production
+
+From project root:
+- `npm run build`
+- `npm start`
+
+Express serves the built frontend and API from one process.
 
 ## API endpoints
 
-- `POST /api/templates` upload template (multipart: title, description, category, docxFile, previewFile)
 - `GET /api/templates` list templates
 - `GET /api/templates/:id` get template
-- `PUT /api/templates/:id` update template fields/files
-- `DELETE /api/templates/:id` delete template
 - `GET /api/templates/:id/download` download DOCX
