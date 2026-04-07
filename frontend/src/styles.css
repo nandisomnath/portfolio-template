@@ -347,22 +347,37 @@ textarea {
 }
 
 .button {
-  border: 0;
-  background: var(--button-primary);
-  color: white;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: color-mix(in srgb, var(--button-primary) 45%, transparent);
+  color: #f8fafc;
+  border-radius: 10px;
   padding: 10px 14px;
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .button.secondary {
-  background: var(--button-secondary);
+  background: color-mix(in srgb, var(--button-secondary) 45%, transparent);
 }
 
 .button.danger {
-  background: #dc2626;
+  background: color-mix(in srgb, #dc2626 45%, transparent);
+}
+
+:root[data-theme="dark"] .button {
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #e5e7eb;
 }
 
 .admin-list {
