@@ -37,6 +37,23 @@ This starts both services together:
 - frontend on `http://localhost:5173`
 - backend on `http://localhost:5000`
 
+## Environment config (important for custom domains)
+
+Create `frontend/.env.local` when running in a custom dev domain/reverse proxy.
+
+- If frontend and backend are on same origin and `/api` is routed correctly:
+  - `VITE_API_BASE=`
+- If backend is on a different URL:
+  - `VITE_API_BASE=https://api.yourdomain.com`
+- If Vite dev proxy should target a custom backend host:
+  - `VITE_DEV_API_TARGET=http://127.0.0.1:5000`
+  - or `VITE_DEV_API_TARGET=https://api.yourdomain.com`
+
+Notes:
+- `VITE_API_BASE` is used by frontend runtime fetch URLs.
+- `VITE_DEV_API_TARGET` is only for Vite dev proxy target.
+- Avoid hardcoding localhost in code; use env values above.
+
 ## Production
 
 From project root:
