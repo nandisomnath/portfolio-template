@@ -6,7 +6,7 @@ import TemplatePreviewPage from "./pages/TemplatePreviewPage";
 import DownloadPage from "./pages/DownloadPage";
 
 function App() {
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
