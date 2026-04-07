@@ -6,6 +6,7 @@ function DownloadPage() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const skeletonItems = Array.from({ length: 4 }, (_, index) => index);
 
   useEffect(() => {
     const load = async () => {
@@ -21,7 +22,25 @@ function DownloadPage() {
     load();
   }, []);
 
-  if (loading) return <p>Loading templates...</p>;
+  if (loading) {
+    return (
+      <section>
+        <h2>Download Templates</h2>
+        <p>Preview each design and download the DOCX template you like.</p>
+        <div className="grid">
+          {skeletonItems.map((item) => (
+            <article className="card skeleton-card" key={item}>
+              <div className="preview skeleton-block" />
+              <div className="skeleton-content">
+                <div className="skeleton-line skeleton-title" />
+                <div className="skeleton-line skeleton-subtitle" />
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
   if (error) return <p className="error">{error}</p>;
 
   return (
