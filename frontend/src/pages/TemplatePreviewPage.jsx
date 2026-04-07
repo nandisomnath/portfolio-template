@@ -48,9 +48,9 @@ function TemplatePreviewPage() {
       </div>
 
       <div className="row">
-        {!!template.previewFile && (
+        {template.previewFile.endsWith(".pdf") && (
           <a className="button secondary" href={getPreviewDownloadUrl(template.id)}>
-            Download Preview
+            Download PDF
           </a>
         )}
         <a className="button" href={getDownloadUrl(template.id)}>
