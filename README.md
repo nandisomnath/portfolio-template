@@ -62,6 +62,23 @@ From project root:
 
 Express serves the built frontend and API from one process.
 
+## Vercel deployment
+
+If production shows `Failed to fetch templates`, use this setup:
+
+- `api/index.js` exposes Express as a Vercel function.
+- `vercel.json` rewrites:
+  - `/api/*` -> `/api/index`
+  - `/uploads/*` -> `/api/index`
+
+Recommended Vercel project settings:
+- Build Command: `npm run build`
+- Output Directory: `frontend/dist`
+- Install Command: `npm install`
+
+For same-domain API on Vercel, keep:
+- `VITE_API_BASE=`
+
 ## Website pages
 
 - `/` Home page (design + how website works)
