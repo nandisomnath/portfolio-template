@@ -14,17 +14,37 @@ Simple full-stack app to browse and download resume templates as DOCX files.
 - `backend/uploads/docx/` for DOCX templates
 - `backend/uploads/previews/` for preview files (image/PDF)
 
-## Add templates manually (no admin panel)
+## Add templates manually using JSON
 
-1. Put your `.docx` files inside `backend/uploads/docx/`
-2. Put preview image/PDF files inside `backend/uploads/previews/`
-3. Use matching base names so they pair automatically.
+The app now reads templates from:
+- `backend/data/templates.json`
 
-Example:
-- `backend/uploads/docx/modern-blue.docx`
-- `backend/uploads/previews/modern-blue.png`
+### Steps
 
-If no preview exists, the site still shows the template with "No preview".
+1. Put DOCX files in `backend/uploads/docx/`
+2. Put preview images/PDF in `backend/uploads/previews/` (or PDF in `docx` folder if you prefer)
+3. Add/update entries in `backend/data/templates.json`
+
+Example entry:
+
+```json
+{
+  "id": "modern-blue",
+  "title": "Modern Blue Resume",
+  "description": "Clean modern layout for software and tech roles.",
+  "category": "Modern",
+  "docxFile": "modern-blue.docx",
+  "previewFile": "modern-blue.png",
+  "pdfFile": "modern-blue.pdf",
+  "createdAt": "2026-04-07T10:00:00.000Z"
+}
+```
+
+Notes:
+- `docxFile`, `previewFile`, `pdfFile` can be:
+  - file names (auto-mapped), or
+  - full upload paths like `/uploads/docx/file.docx`.
+- `pdfFile` is optional. If `previewFile` is PDF, it is used for Download PDF.
 
 ## Run locally
 

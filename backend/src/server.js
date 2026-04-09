@@ -8,15 +8,20 @@ const PORT = process.env.PORT || 5000;
 
 const BACKEND_ROOT = path.join(__dirname, "..");
 const PROJECT_ROOT = path.join(__dirname, "..", "..");
+const DATA_FILE = path.join(BACKEND_ROOT, "data", "templates.json");
 const DOCX_DIR = path.join(BACKEND_ROOT, "uploads", "docx");
 const PREVIEW_DIR = path.join(BACKEND_ROOT, "uploads", "previews");
 
 const ensureDirs = () => {
-  [DOCX_DIR, PREVIEW_DIR].forEach((dir) => {
+  [DOCX_DIR, PREVIEW_DIR, path.dirname(DATA_FILE)].forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
   });
+
+  if (!fs.existsSync(DATA_FILE)) {
+    fs.writeFileSync(DATA_FILE, "[]", "utf-8");
+  }
 };
 
 ensureDirs();
@@ -40,111 +45,126 @@ const titleFromName = (fileName) =>
     .trim()
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
-const getTemplatesFromFiles = () => {
-  const docxDirFiles = fs
-    .readdirSync(DOCX_DIR, { withFileTypes: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => entry.name);
-  const docxFiles = docxDirFiles.filter((file) => path.extname(file).toLowerCase() === ".docx");
-  const pdfFilesInDocx = docxDirFiles.filter((file) => path.extname(file).toLowerCase() === ".pdf");
+const toUploadPath = (value, type) => {
+  if (!value) return "";
+  if (value.startsWith("/uploads/")) return value;
+  if (value.startsWith("uploads/")) return `/${value}`;
+  const fileName = value.replace(/^\/+/, "");
+  return type === "docx" ? `/uploads/docx/${fileName}` : `/uploads/previews/${fileName}`;
+};
 
-  const previewFiles = fs
-    .readdirSync(PREVIEW_DIR, { withFileTypes: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => entry.name);
+const readTemplatesFromJson = () => {
+  let parsed = [];
+  try {
+    const raw = fs.readFileSync(DATA_FILE, "utf-8");
+    parsed = JSON.parse(raw);
+  } catch (error) {
+    throw new Error("Invalid JSON in backend/data/templates.json");
+  }
 
-  const previewBySlug = new Map();
-  previewFiles.forEach((file) => {
-    const ext = path.extname(file).toLowerCase();
-    if (![".png", ".jpg", ".jpeg", ".webp", ".gif", ".pdf"].includes(ext)) return;
-    const slug = slugFromName(file);
-    if (!previewBySlug.has(slug)) previewBySlug.set(slug, file);
-  });
+  if (!Array.isArray(parsed)) {
+    throw new Error("templates.json must contain an array");
+  }
 
-  const pdfInDocxBySlug = new Map();
-  pdfFilesInDocx.forEach((file) => {
-    const slug = slugFromName(file);
-    if (!pdfInDocxBySlug.has(slug)) pdfInDocxBySlug.set(slug, file);
-  });
+  const templates = parsed
+    .filter((item) => item && typeof item === "object")
+    .map((item, index) => {
+      const docxFile = toUploadPath(item.docxFile, "docx");
+      const previewFile = toUploadPath(item.previewFile, "preview");
+      const pdfFile = item.pdfFile
+        ? toUploadPath(item.pdfFile, "preview")
+        : previewFile.toLowerCase().endsWith(".pdf")
+          ? previewFile
+          : "";
+      const idSource = item.id || item.title || docxFile || `template-${index + 1}`;
 
-  const templates = docxFiles.map((docxName) => {
-    const slug = slugFromName(docxName);
-    const previewName = previewBySlug.get(slug);
-    const pdfDocxName = pdfInDocxBySlug.get(slug);
-    const previewFilePath = previewName
-      ? `/uploads/previews/${previewName}`
-      : pdfDocxName
-        ? `/uploads/docx/${pdfDocxName}`
-        : "";
-    return {
-      id: slug,
-      title: titleFromName(docxName),
-      description: "Resume template ready to download.",
-      category: "General",
-      docxFile: `/uploads/docx/${docxName}`,
-      previewFile: previewFilePath,
-      pdfFile: pdfDocxName ? `/uploads/docx/${pdfDocxName}` : "",
-      createdAt: fs.statSync(path.join(DOCX_DIR, docxName)).ctime.toISOString(),
-    };
-  });
+      return {
+        id: slugFromName(String(idSource)),
+        title: item.title || titleFromName(docxFile || `template-${index + 1}`),
+        description: item.description || "Resume template ready to download.",
+        category: item.category || "General",
+        docxFile,
+        previewFile,
+        pdfFile,
+        createdAt: item.createdAt || new Date().toISOString(),
+      };
+    })
+    .filter((item) => item.id && item.docxFile);
 
   return templates.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
 };
 
 app.get("/api/templates", (req, res) => {
-  const templates = getTemplatesFromFiles();
-  res.json(templates);
+  try {
+    const templates = readTemplatesFromJson();
+    return res.json(templates);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 app.get("/api/templates/:id", (req, res) => {
-  const templates = getTemplatesFromFiles();
-  const found = templates.find((t) => t.id === req.params.id);
+  try {
+    const templates = readTemplatesFromJson();
+    const found = templates.find((t) => t.id === req.params.id);
 
-  if (!found) {
-    return res.status(404).json({ message: "Template not found" });
+    if (!found) {
+      return res.status(404).json({ message: "Template not found" });
+    }
+
+    return res.json(found);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-
-  return res.json(found);
 });
 
 app.get("/api/templates/:id/download", (req, res) => {
-  const templates = getTemplatesFromFiles();
-  const found = templates.find((t) => t.id === req.params.id);
+  try {
+    const templates = readTemplatesFromJson();
+    const found = templates.find((t) => t.id === req.params.id);
 
-  if (!found) {
-    return res.status(404).json({ message: "Template not found" });
+    if (!found) {
+      return res.status(404).json({ message: "Template not found" });
+    }
+
+    const filePath = path.join(BACKEND_ROOT, found.docxFile.replace(/^\//, ""));
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: "DOCX file not found on disk" });
+    }
+
+    const safeTitle = found.title.replace(/[^\w\-]+/g, "_");
+    return res.download(filePath, `${safeTitle}.docx`);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-
-  const filePath = path.join(BACKEND_ROOT, found.docxFile.replace(/^\//, ""));
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ message: "DOCX file not found on disk" });
-  }
-
-  const safeTitle = found.title.replace(/[^\w\-]+/g, "_");
-  return res.download(filePath, `${safeTitle}.docx`);
 });
 
 app.get("/api/templates/:id/preview-download", (req, res) => {
-  const templates = getTemplatesFromFiles();
-  const found = templates.find((t) => t.id === req.params.id);
+  try {
+    const templates = readTemplatesFromJson();
+    const found = templates.find((t) => t.id === req.params.id);
 
-  if (!found) {
-    return res.status(404).json({ message: "Template not found" });
+    if (!found) {
+      return res.status(404).json({ message: "Template not found" });
+    }
+
+    const pdfPath =
+      found.pdfFile || (found.previewFile.toLowerCase().includes(".pdf") ? found.previewFile : "");
+    if (!pdfPath) {
+      return res.status(404).json({ message: "PDF file not found for this template" });
+    }
+
+    const filePath = path.join(BACKEND_ROOT, pdfPath.replace(/^\//, ""));
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: "PDF file not found on disk" });
+    }
+
+    const safeTitle = found.title.replace(/[^\w\-]+/g, "_");
+    const ext = path.extname(filePath).toLowerCase();
+    return res.download(filePath, `${safeTitle}-preview${ext}`);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-
-  const pdfPath = found.pdfFile || (found.previewFile.toLowerCase().includes(".pdf") ? found.previewFile : "");
-  if (!pdfPath) {
-    return res.status(404).json({ message: "PDF file not found for this template" });
-  }
-
-  const filePath = path.join(BACKEND_ROOT, pdfPath.replace(/^\//, ""));
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ message: "PDF file not found on disk" });
-  }
-
-  const safeTitle = found.title.replace(/[^\w\-]+/g, "_");
-  const ext = path.extname(filePath).toLowerCase();
-  return res.download(filePath, `${safeTitle}-preview${ext}`);
 });
 
 app.use((error, req, res, next) => {
