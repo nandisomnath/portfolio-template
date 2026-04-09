@@ -6,5 +6,13 @@
     "docxFile": "gengar.docx",
     "previewFile": "gengar.jpg",
     "pdfFile": "gengar.pdf"
+  },
+  {
+    "id": "oynx",
+    "title": "Oynx Resume",
+    "category": "Modern",
+    "docxFile": "oynx.docx",
+    "previewFile": "oynx.jpg",
+    "pdfFile": "oynx.pdf"
   }
 ]
