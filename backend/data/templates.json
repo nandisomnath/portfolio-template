@@ -1,18 +1,58 @@
 [
   {
-    "id": "gengar",
-    "title": "Gengar Resume",
+    "id": "1",
+    "title": "General Resume",
     "category": "Modern",
-    "pptxFile": "gengar.pptx",
-    "previewFile": "gengar.jpg",
-    "pdfFile": "gengar.pdf"
+    "pptxFile": "1.pptx",
+    "previewFile": "1.jpg",
+    "pdfFile": "1.pdf"
   },
   {
-    "id": "onyx",
-    "title": "Oynx Resume",
+    "id": "2",
+    "title": "General Resume",
     "category": "Modern",
-    "pptxFile": "onyx.pptx",
-    "previewFile": "onyx.jpg",
-    "pdfFile": "onyx.pdf"
+    "pptxFile": "2.pptx",
+    "previewFile": "2.jpg",
+    "pdfFile": "2.pdf"
+  },
+  {
+    "id": "3",
+    "title": "General Resume",
+    "category": "Modern",
+    "pptxFile": "3.pptx",
+    "previewFile": "3.jpg",
+    "pdfFile": "3.pdf"
+  },
+  {
+    "id": "4",
+    "title": "General Resume",
+    "category": "Modern",
+    "pptxFile": "4.pptx",
+    "previewFile": "4.jpg",
+    "pdfFile": "4.pdf"
+  },
+  {
+    "id": "5",
+    "title": "General Resume",
+    "category": "Modern",
+    "pptxFile": "5.pptx",
+    "previewFile": "5.jpg",
+    "pdfFile": "5.pdf"
+  },
+  {
+    "id": "6",
+    "title": "General Resume",
+    "category": "Modern",
+    "pptxFile": "6.pptx",
+    "previewFile": "6.jpg",
+    "pdfFile": "6.pdf"
+  },
+  {
+    "id": "7",
+    "title": "General Resume",
+    "category": "Modern",
+    "pptxFile": "7.pptx",
+    "previewFile": "7.jpg",
+    "pdfFile": "7.pdf"
   }
 ]
