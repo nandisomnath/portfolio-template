@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  getDownloadUrl,
-  getFileUrl,
-  getPreviewDownloadUrl,
-  getTemplate,
-} from "../api";
+import { getDownloadUrl, getFileUrl, getTemplate } from "../api";
 
 function TemplatePreviewPage() {
   const { id } = useParams();
@@ -31,7 +26,6 @@ function TemplatePreviewPage() {
   if (error) return <p className="error">{error}</p>;
   if (!template) return null;
   const isPdfPreview = !!template.previewFile && template.previewFile.toLowerCase().includes(".pdf");
-  const hasPdfFile = !!template.pdfFile || isPdfPreview;
 
   return (
     <section>
@@ -50,11 +44,6 @@ function TemplatePreviewPage() {
       </div>
 
       <div className="row">
-        {hasPdfFile && (
-          <a className="button secondary" href={getPreviewDownloadUrl(template.id)}>
-            Download PDF
-          </a>
-        )}
         <a className="button" href={getDownloadUrl(template.id)}>
           Download PPTX
         </a>
