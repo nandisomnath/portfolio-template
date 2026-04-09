@@ -81,17 +81,14 @@ const readTemplatesFromJson = () => {
       return {
         id: slugFromName(String(idSource)),
         title: item.title || titleFromName(docxFile || `template-${index + 1}`),
-        description: item.description || "Resume template ready to download.",
         category: item.category || "General",
         docxFile,
         previewFile,
         pdfFile,
-        createdAt: item.createdAt || new Date().toISOString(),
       };
     })
     .filter((item) => item.id && item.docxFile);
-
-  return templates.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+  return templates;
 };
 
 app.get("/api/templates", (req, res) => {

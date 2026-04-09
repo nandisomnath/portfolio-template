@@ -30,7 +30,6 @@ function TemplateDetailPage() {
     <section>
       <Link to="/">← Back</Link>
       <h2>{template.title}</h2>
-      <p>{template.description}</p>
       <p>
         <strong>Category:</strong> {template.category}
       </p>

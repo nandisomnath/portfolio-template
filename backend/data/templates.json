@@ -2,11 +2,9 @@
   {
     "id": "gengar",
     "title": "Gengar Resume",
-    "description": "Gengar is a ghost pokemon that is known for its ability to fly and its ability to use its psychic powers to control its opponents.",
     "category": "Modern",
     "docxFile": "gengar.docx",
     "previewFile": "gengar.jpg",
-    "pdfFile": "gengar.pdf",
-    "createdAt": "2026-04-09"
+    "pdfFile": "gengar.pdf"
   }
 ]

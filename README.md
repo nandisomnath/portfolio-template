@@ -31,12 +31,10 @@ Example entry:
 {
   "id": "modern-blue",
   "title": "Modern Blue Resume",
-  "description": "Clean modern layout for software and tech roles.",
   "category": "Modern",
   "docxFile": "modern-blue.docx",
   "previewFile": "modern-blue.png",
-  "pdfFile": "modern-blue.pdf",
-  "createdAt": "2026-04-07T10:00:00.000Z"
+  "pdfFile": "modern-blue.pdf"
 }
 ```
 
