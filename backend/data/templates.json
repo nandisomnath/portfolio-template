@@ -1,12 +1,12 @@
 [
   {
-    "id": "modern-blue",
-    "title": "Modern Blue Resume",
-    "description": "Clean modern layout for software and tech roles.",
+    "id": "gengar",
+    "title": "Gengar Resume",
+    "description": "Gengar is a ghost pokemon that is known for its ability to fly and its ability to use its psychic powers to control its opponents.",
     "category": "Modern",
-    "docxFile": "modern-blue.docx",
-    "previewFile": "modern-blue.png",
-    "pdfFile": "modern-blue.pdf",
-    "createdAt": "2026-04-07T10:00:00.000Z"
+    "docxFile": "gengar.docx",
+    "previewFile": "gengar.jpg",
+    "pdfFile": "gengar.pdf",
+    "createdAt": "2026-04-09"
   }
 ]
