@@ -3,7 +3,7 @@
     "id": "gengar",
     "title": "Gengar Resume",
     "category": "Modern",
-    "docxFile": "gengar.docx",
+    "pptxFile": "gengar.pptx",
     "previewFile": "gengar.jpg",
     "pdfFile": "gengar.pdf"
   },
@@ -11,7 +11,7 @@
     "id": "onyx",
     "title": "Oynx Resume",
     "category": "Modern",
-    "docxFile": "onyx.docx",
+    "pptxFile": "onyx.pptx",
     "previewFile": "onyx.jpg",
     "pdfFile": "onyx.pdf"
   }

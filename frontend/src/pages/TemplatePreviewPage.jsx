@@ -56,7 +56,7 @@ function TemplatePreviewPage() {
           </a>
         )}
         <a className="button" href={getDownloadUrl(template.id)}>
-          Download DOCX
+          Download PPTX
         </a>
       </div>
     </section>

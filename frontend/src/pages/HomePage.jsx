@@ -23,7 +23,7 @@ function HomePage() {
           </article>
           <article>
             <strong>3. Download</strong>
-            <p>Download DOCX and preview file in one click.</p>
+            <p>Download PPTX and preview file in one click.</p>
           </article>
         </div>
       </div>

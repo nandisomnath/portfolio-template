@@ -47,7 +47,7 @@ function TemplateDetailPage() {
           Open Preview Page
         </Link>
         <a className="button" href={getDownloadUrl(template.id)}>
-          Download DOCX
+          Download PPTX
         </a>
       </div>
     </section>

@@ -1,6 +1,6 @@
 # Resume Template Download Website (MVP)
 
-Simple full-stack app to browse and download resume templates as DOCX files.
+Simple full-stack app to browse and download resume templates as PPTX files.
 
 ## Stack
 
@@ -11,7 +11,7 @@ Simple full-stack app to browse and download resume templates as DOCX files.
 
 ## Folder structure
 
-- `backend/uploads/docx/` for DOCX templates
+- `backend/uploads/pptx/` for PPTX templates
 - `backend/uploads/previews/` for preview files (image/PDF)
 
 ## Add templates manually using JSON
@@ -21,8 +21,8 @@ The app now reads templates from:
 
 ### Steps
 
-1. Put DOCX files in `backend/uploads/docx/`
-2. Put preview images/PDF in `backend/uploads/previews/` (or PDF in `docx` folder if you prefer)
+1. Put PPTX files in `backend/uploads/pptx/`
+2. Put preview images/PDF in `backend/uploads/previews/` (or PDF in `pptx` folder if you prefer)
 3. Add/update entries in `backend/data/templates.json`
 
 Example entry:
@@ -32,16 +32,16 @@ Example entry:
   "id": "modern-blue",
   "title": "Modern Blue Resume",
   "category": "Modern",
-  "docxFile": "modern-blue.docx",
+  "pptxFile": "modern-blue.pptx",
   "previewFile": "modern-blue.png",
   "pdfFile": "modern-blue.pdf"
 }
 ```
 
 Notes:
-- `docxFile`, `previewFile`, `pdfFile` can be:
+- `pptxFile`, `previewFile`, `pdfFile` can be:
   - file names (auto-mapped), or
-  - full upload paths like `/uploads/docx/file.docx`.
+  - full upload paths like `/uploads/pptx/file.pptx`.
 - `pdfFile` is optional. If `previewFile` is PDF, it is used for Download PDF.
 
 ## Run locally
@@ -107,5 +107,5 @@ For same-domain API on Vercel, keep:
 
 - `GET /api/templates` list templates
 - `GET /api/templates/:id` get template
-- `GET /api/templates/:id/download` download DOCX
+- `GET /api/templates/:id/download` download PPTX
 - `GET /api/templates/:id/preview-download` download preview file

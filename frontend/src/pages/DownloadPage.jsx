@@ -26,7 +26,7 @@ function DownloadPage() {
     return (
       <section>
         <h2>Download Templates</h2>
-        <p>Preview each design and download the DOCX template you like.</p>
+        <p>Preview each design and download the PPTX template you like.</p>
         <div className="grid">
           {skeletonItems.map((item) => (
             <article className="card skeleton-card" key={item}>
@@ -46,7 +46,7 @@ function DownloadPage() {
   return (
     <section>
       <h2>Download Templates</h2>
-      <p>Preview each design and download the DOCX template you like.</p>
+      <p>Preview each design and download the PPTX template you like.</p>
 
       {templates.length === 0 ? (
         <p>No templates uploaded yet.</p>

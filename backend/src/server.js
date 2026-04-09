@@ -9,11 +9,11 @@ const PORT = process.env.PORT || 5000;
 const BACKEND_ROOT = path.join(__dirname, "..");
 const PROJECT_ROOT = path.join(__dirname, "..", "..");
 const DATA_FILE = path.join(BACKEND_ROOT, "data", "templates.json");
-const DOCX_DIR = path.join(BACKEND_ROOT, "uploads", "docx");
+const PPTX_DIR = path.join(BACKEND_ROOT, "uploads", "pptx");
 const PREVIEW_DIR = path.join(BACKEND_ROOT, "uploads", "previews");
 
 const ensureDirs = () => {
-  [DOCX_DIR, PREVIEW_DIR, path.dirname(DATA_FILE)].forEach((dir) => {
+  [PPTX_DIR, PREVIEW_DIR, path.dirname(DATA_FILE)].forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
@@ -50,7 +50,7 @@ const toUploadPath = (value, type) => {
   if (value.startsWith("/uploads/")) return value;
   if (value.startsWith("uploads/")) return `/${value}`;
   const fileName = value.replace(/^\/+/, "");
-  return type === "docx" ? `/uploads/docx/${fileName}` : `/uploads/previews/${fileName}`;
+  return type === "pptx" ? `/uploads/pptx/${fileName}` : `/uploads/previews/${fileName}`;
 };
 
 const readTemplatesFromJson = () => {
@@ -69,25 +69,26 @@ const readTemplatesFromJson = () => {
   const templates = parsed
     .filter((item) => item && typeof item === "object")
     .map((item, index) => {
-      const docxFile = toUploadPath(item.docxFile, "docx");
+      const pptxSource = item.pptxFile || item.docxFile || "";
+      const pptxFile = toUploadPath(pptxSource, "pptx");
       const previewFile = toUploadPath(item.previewFile, "preview");
       const pdfFile = item.pdfFile
         ? toUploadPath(item.pdfFile, "preview")
         : previewFile.toLowerCase().endsWith(".pdf")
           ? previewFile
           : "";
-      const idSource = item.id || item.title || docxFile || `template-${index + 1}`;
+      const idSource = item.id || item.title || pptxFile || `template-${index + 1}`;
 
       return {
         id: slugFromName(String(idSource)),
-        title: item.title || titleFromName(docxFile || `template-${index + 1}`),
+        title: item.title || titleFromName(pptxFile || `template-${index + 1}`),
         category: item.category || "General",
-        docxFile,
+        pptxFile,
         previewFile,
         pdfFile,
       };
     })
-    .filter((item) => item.id && item.docxFile);
+    .filter((item) => item.id && item.pptxFile);
   return templates;
 };
 
@@ -124,13 +125,13 @@ app.get("/api/templates/:id/download", (req, res) => {
       return res.status(404).json({ message: "Template not found" });
     }
 
-    const filePath = path.join(BACKEND_ROOT, found.docxFile.replace(/^\//, ""));
+    const filePath = path.join(BACKEND_ROOT, found.pptxFile.replace(/^\//, ""));
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ message: "DOCX file not found on disk" });
+      return res.status(404).json({ message: "PPTX file not found on disk" });
     }
 
     const safeTitle = found.title.replace(/[^\w\-]+/g, "_");
-    return res.download(filePath, `${safeTitle}.docx`);
+    return res.download(filePath, `${safeTitle}.pptx`);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
