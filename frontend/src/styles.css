@@ -212,6 +212,29 @@ body,
   margin-top: 8px;
 }
 
+.software-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: grid;
+  gap: 8px;
+}
+
+.software-list li {
+  padding: 8px 12px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.note {
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin: 8px 0 16px;
+}
+
 .steps {
   display: grid;
   gap: 12px;
