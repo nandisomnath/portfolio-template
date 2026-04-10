@@ -90,6 +90,25 @@ body,
   background: rgba(255, 255, 255, 0.12);
 }
 
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--header-text);
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.35s ease;
+}
+
+.github-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.github-link svg {
+  width: 24px;
+  height: 24px;
+}
+
 .theme-switch {
   position: relative;
   display: inline-flex;
